@@ -30,13 +30,20 @@ class Profile extends React.Component {
     onProfileUpdate = (data) => {
         fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
             method: 'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                // grabs auth token upon submit so user can post image url
+                'Authorization': window.sessionStorage.getItem('token')
+              },
             body: JSON.stringify({ formInput: data })
         }).then(resp => {
-            this.props.toggleModal();
-            this.props.loadUser({...this.props.user, ...data});
-        }).catch(console.log)
-    }
+        // '304' response means cached by browser
+            if (resp.status === 200 || resp.status === 304) {
+                this.props.toggleModal();
+                this.props.loadUser({...this.props.user, ...data});
+                }
+            }).catch(console.log)
+        }
 
     render() {
         const { user } = this.props;
