@@ -29,7 +29,7 @@ class Rank extends React.Component {
           {this.props.entries}
         </div>
         <div className='white f3'>
-          {`Rank Badge: ${this.props.emoji}`}
+          {`Rank Badge: ${this.state.emoji}`}
         </div>
       </div>
     );
