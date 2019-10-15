@@ -11,6 +11,15 @@ class Rank extends React.Component {
   componentDidMount() {
     this.generateEmoji(this.props.entries)
   }
+// updates new emojis
+  componentDidUpdate(prevProps, prevState) {
+  // if nothing changes in entries then return 'null'
+    if (prevProps.entries === this.props.entries && prevProps.name === this.props.name) {
+      return null
+    }
+  // if changed then generate new emoji through AWS lambda function call
+    this.generateEmoji(this.props.entries);
+  }
 
   generateEmoji = (entries) => {
     fetch(`https://47qjtadsm3.execute-api.us-east-1.amazonaws.com/prod/rank?rank=${entries}`)
